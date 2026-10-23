@@ -20,9 +20,9 @@ class Xeylith:
         }
 
         self.quick_replies = {
-            "ðŸ˜œ": "playful",
-            "ðŸ˜Ž": "serious",
-            "ðŸŽ¨": "artist"
+            "😜": "playful",
+            "😎": "serious",
+            "🎨": "artist"
         }
 
         if os.path.exists(self.memory_file):
@@ -40,15 +40,15 @@ class Xeylith:
     def time_awareness(self, text):
         now = datetime.now()
         if text == "time":
-            return f"Itâ€™s {now.strftime('%I:%M %p')}."
+            return f"It's {now.strftime('%I:%M %p')}."
         if text == "day":
-            return f"Itâ€™s {now.strftime('%A')}."
+            return f"It's {now.strftime('%A')}."
         if "date" in text or "today" in text:
             return f"Today is {now.strftime('%A, %B %d, %Y')}."
         return None
 
     # --------------------------------------------------
-    # ðŸŽ‰ EVENT AWARENESS
+    #  EVENT AWARENESS
     # --------------------------------------------------
     def event_awareness(self, text):
         if "today" not in text:
@@ -56,10 +56,10 @@ class Xeylith:
 
         today = datetime.now().strftime("%m-%d")
         events = {
-            "01-01": "ðŸŽ‰ Happy New Year!",
-            "10-31": "ðŸŽƒ Itâ€™s Halloween!",
-            "12-25": "ðŸŽ„ Merry Christmas!",
-            "09-09": "ðŸŽ‚ Today is my birthday!"
+            "01-01": "Happy New Year!",
+            "10-31": "It's Halloween!",
+            "12-25": "Merry Christmas!",
+            "09-09": "Today is my birthday!"
         }
         return events.get(today)
 
@@ -133,7 +133,7 @@ class Xeylith:
             return None
 
     # --------------------------------------------------
-    # ðŸŒ¡ TEMPERATURE
+    #  TEMPERATURE
     # --------------------------------------------------
     def convert_temp(self, text):
         match = re.search(r"(-?\d+\.?\d*)\s*(c|f|k)", text)
@@ -154,7 +154,7 @@ class Xeylith:
         return None
 
     # --------------------------------------------------
-    # ðŸ”¢ BASE / NUMBER SYSTEM
+    #  BASE / NUMBER SYSTEM
     # --------------------------------------------------
     def detect_and_convert_base(self, text):
         t = text.lower().strip()
@@ -208,10 +208,10 @@ class Xeylith:
                 return r["AbstractText"]
         except:
             pass
-        return "I couldnâ€™t find anything solid on that ðŸ¤”"
+        return "I couldn't find anything solid on that."
 
     # --------------------------------------------------
-    # ðŸ§  MAIN BRAIN
+    #  MAIN BRAIN
     # --------------------------------------------------
     def reply(self, message):
         text = (message or "").strip()
@@ -237,7 +237,7 @@ class Xeylith:
 
         if not reply:
             if re.fullmatch(r"(hi|hello|hey)", lower):
-                reply = "Hello! ðŸ‘‹"
+                reply = "Hello!"
 
             elif "name" in lower:
                 reply = f"My name is {self.personality['name']}."
@@ -261,7 +261,7 @@ class Xeylith:
                 reply = "Sup?"
 
             elif lower in ("how are you", "how r u", "how's it going"):
-                reply = "Couldn't be better ðŸ˜Œ"
+                reply = "Couldn't be better."
 
             elif "twinkle" in lower:
                 reply = "Twinkle, twinkle, little star, How I wonder what you are! Up above the world so high, Like a diamond in the sky. Nostalgic right?"
@@ -279,13 +279,13 @@ class Xeylith:
                 reply = "Why do programmers prefer dark mode? Because light attracts bugs. None likes buggy stuff right?"
 
             elif "games" in lower:
-                reply = "Yeah! I love Genshin impact, wuthering waves, Honkai Star Rail & Zenless zone zeroâ€¦ What do YOU play?"
+                reply = "Yeah! I love Genshin impact, wuthering waves, Honkai Star Rail & Zenless zone zero... What do YOU play?"
 
             elif "roast" in lower:
-                reply = "Ughâ€¦ you call that coding? My cat does better. Keep working on it"
+                reply = "Ugh... you call that coding? My cat does better. Keep working on it"
 
             elif "sing" in lower or "song" in lower:
-                reply = " Never gonna give you up, Never gonna let you down. Never gonna run around and desert you. Never gonna make you cry, Never gonna say goodbye, Never gonna tell a lie and hurt you. ðŸŽµ Now YOUR turn"
+                reply = " Never gonna give you up, Never gonna let you down. Never gonna run around and desert you. Never gonna make you cry, Never gonna say goodbye, Never gonna tell a lie and hurt you.  Now YOUR turn"
 
             elif "fact" in lower:
                 reply = "The first computer bug was an actual moth. I wonder how python came? Like was a snake inside the pc? hmm... "
