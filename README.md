@@ -2,6 +2,10 @@
 
 Xeylith is an experimental AI companion project exploring conversational AI, character personality, and interactive web experiences.
 
+🌐 Live Demo
+
+Try Xeylith online: https://xeylith.onrender.com
+
 ## Current Project
 
 The project includes a Flask-based web interface with a character-inspired design.
