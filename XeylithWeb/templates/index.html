@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Xeylith Web Chat</title>
+
+<link href="https://fonts.cdnfonts.com/css/love-me" rel="stylesheet">
+
+<style>
+body{
+  margin:0;
+  padding:0;
+  font-family:'Love Me', cursive;
+  overflow:hidden;
+  background:url('/static/img/city_bg.jpg') center/cover fixed no-repeat;
+  color:#fff;
+}
+
+#snowLayer{
+  position:fixed;
+  top:0;left:0;
+  width:100%;height:100%;
+  pointer-events:none;
+  z-index:1;
+}
+
+#container{
+  position:relative;
+  display:flex;
+  height:100vh;
+  z-index:2;
+}
+
+#chat-container{
+  width:100%;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  padding:16px;
+  background:rgba(0,0,0,0.28);
+
+  /* ---- TOP gap ---- */
+  padding-top: 30px;
+
+  /* ---- BOTTOM gap ---- */
+  padding-bottom: 120px;
+}
+
+#chatHead{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:6px;
+}
+
+#chatHead img{
+  width:50px;height:50px;
+  border-radius:50%;
+  border:2px solid #ff1493;
+}
+
+#messages{
+  flex:1;
+  overflow:auto;
+  margin-bottom:10px;
+  padding-right:6px;
+}
+
+.bubble{
+  display:flex;
+  margin:8px 0;
+  align-items:flex-end;
+}
+
+.bubble.user{
+  justify-content:flex-end;
+}
+
+.bubble img{
+  width:40px;height:40px;
+  border-radius:50%;
+  margin:0 8px;
+  box-shadow:0 0 10px #33ccff;
+}
+
+.msg{
+  padding:10px 14px;
+  border-radius:18px;
+  max-width:70%;
+  word-wrap:break-word;
+  background:linear-gradient(135deg,#bb33ff,#ff1493);
+  box-shadow:0 0 8px rgba(0,0,0,0.3);
+  color:#fff;
+}
+
+.user .msg{
+  background:linear-gradient(135deg,#1e90ff,#00bfff);
+}
+
+#chatForm{
+  display:flex;
+  gap:8px;
+  margin-top:8px;
+}
+
+#chatForm input{
+  flex:1;
+  padding:10px;
+  border-radius:10px;
+  border:0;
+  outline:none;
+  background:rgba(255,255,255,0.06);
+  color:#fff;
+
+  /* ---- pink glow ---- */
+  box-shadow: 0 0 12px rgba(255, 20, 147, 0.7);
+  border: 2px solid rgba(255,20,147,0.5);
+}
+
+#chatForm button{
+  padding:10px 14px;
+  border-radius:10px;
+  border:0;
+  background:#bb33ff;
+  color:#fff;
+  cursor:pointer;
+}
+
+.quickBtn{
+  padding:6px 10px;
+  border-radius:8px;
+  border:0;
+  background:#ff1493;
+  color:#fff;
+  cursor:pointer;
+}
+
+#typingIndicator{
+  display:none;
+  color:#ff1493;
+  margin-bottom:4px;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="snowLayer"></canvas>
+
+<div id="container">
+  <div id="chat-container">
+
+    <div id="chatHead">
+      <img src="/static/img/avatar.png" alt="Xeylith">
+      <div>
+        <strong>Xeylith</strong>
+        <div style="font-size:12px;color:#ddd">tsundere ai</div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:8px;margin-bottom:8px">
+      <button class="quickBtn" id="playful">😜</button>
+      <button class="quickBtn" id="serious">😎</button>
+      <button class="quickBtn" id="artist">🎨</button>
+    </div>
+
+    <div id="messages"></div>
+    <div id="typingIndicator">Xeylith is typing…</div>
+
+    <form id="chatForm">
+      <input id="messageInput" placeholder="Say something..." autocomplete="off">
+      <button type="submit">Send</button>
+    </form>
+
+    <audio id="ttsAudio" style="display:none"></audio>
+  </div>
+</div>
+
+<script>
+// ---------- snow ----------
+const snowCanvas = document.getElementById('snowLayer');
+const sctx = snowCanvas.getContext('2d');
+
+function resizeSnow(){
+  snowCanvas.width = window.innerWidth;
+  snowCanvas.height = window.innerHeight;
+}
+resizeSnow();
+window.addEventListener('resize', resizeSnow);
+
+const flakes = Array.from({length:160}).map(()=>({
+  x:Math.random()*snowCanvas.width,
+  y:Math.random()*snowCanvas.height,
+  r:Math.random()*3+1,
+  d:Math.random()*2,
+  h:Math.random()*360
+}));
+
+function drawSnow(){
+  sctx.clearRect(0,0,snowCanvas.width,snowCanvas.height);
+  flakes.forEach(f=>{
+    sctx.fillStyle=`hsl(${f.h},100%,70%)`;
+    sctx.beginPath();
+    sctx.arc(f.x,f.y,f.r,0,Math.PI*2);
+    sctx.fill();
+    f.y += Math.pow(f.d,1.6);
+    f.h=(f.h+0.5)%360;
+    if(f.y>snowCanvas.height){
+      f.y=0;
+      f.x=Math.random()*snowCanvas.width;
+    }
+  });
+  requestAnimationFrame(drawSnow);
+}
+drawSnow();
+
+// ---------- chat ----------
+const messagesDiv = document.getElementById('messages');
+const messageInput = document.getElementById('messageInput');
+const chatForm = document.getElementById('chatForm');
+const ttsAudio = document.getElementById('ttsAudio');
+const typingIndicator = document.getElementById('typingIndicator');
+
+function escapeHtml(s){
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function addMessage(user, text, avatar){
+  const b = document.createElement('div');
+  b.className = 'bubble ' + (user==='user'?'user':'xeylith');
+
+  if(user==='user'){
+    b.innerHTML = `<div class="msg">${escapeHtml(text)}</div><img src="${avatar}">`;
+  } else {
+    b.innerHTML = `<img src="${avatar}"><div class="msg">${escapeHtml(text)}</div>`;
+  }
+
+  messagesDiv.appendChild(b);
+  messagesDiv.scrollTop = messagesDiv.scrollHeight;
+}
+
+async function sendMessage(msg){
+  if(!msg) return;
+
+  addMessage('user', msg, '/static/img/user.png');
+  messageInput.value='';
+  typingIndicator.style.display='block';
+
+  try{
+    const res = await fetch('/chat',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({message:msg})
+    });
+
+    const data = await res.json();
+    typingIndicator.style.display='none';
+
+    addMessage('xeylith', data.reply, '/static/img/avatar.png');
+
+    if(data.tts){
+      ttsAudio.src='/static/tts/'+data.tts;
+      ttsAudio.play().catch(()=>{});
+    }
+
+  }catch(e){
+    typingIndicator.style.display='none';
+    console.error(e);
+  }
+}
+
+chatForm.addEventListener('submit', e=>{
+  e.preventDefault();
+  sendMessage(messageInput.value.trim());
+});
+
+document.getElementById('playful').onclick = ()=>sendMessage('😜');
+document.getElementById('serious').onclick = ()=>sendMessage('😎');
+document.getElementById('artist').onclick = ()=>sendMessage('🎨');
+</script>
+
+</body>
+</html>

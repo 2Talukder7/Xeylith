@@ -1,0 +1,49 @@
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+*.mp3
+.tmp.driveupload/
+memory.json
+
+# Local backups and generated data
+XeylithWeb_backup/
+memory.json
+output.mp3
+*.mp3
+
+# Python environments and cache
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Xeylith local runtime data
+XeylithWeb/memory.json
+XeylithWeb/static/models/*.vrm
+
+# Python environments and generated files
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+
+# Local runtime data and generated audio
+XeylithWeb/memory.json
+XeylithWeb/output.mp3
+XeylithWeb/static/tts/
+XeylithWeb/static/tts_*.mp3
+
+# Local backups and unfinished avatar assets
+XeylithWeb_backup/
+XeylithWeb/static/models/*.vrm
+
+# Local secrets
+.env
+.env.*
+!.env.example
