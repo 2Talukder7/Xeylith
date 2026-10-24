@@ -38,8 +38,7 @@ Enter a message in the chat interface. These are examples of supported input pat
 | `dec:42` | Decimal-to-number conversion |
 | `oct:17` | Octal-to-number conversion |
 | `ascii:Hello` | ASCII representations of text |
-| `joke` | A programming joke |
-| Casual conversation |
+| Song, Games, Joke, Poets |
 
 
 Some commands use specific input formats. General conversational questions may receive a predefined response or trigger the web-search fallback. Search results, speech generation, and persistent storage depend on network access and deployment configuration.
