@@ -30,7 +30,6 @@ Enter a message in the chat interface. These are examples of supported input pat
 | `time` | Current time |
 | `day` | Current day of the week |
 | `date` or `today` | Current date |
-| `7 days from now` | Future-date calculation |
 | `60 sec` | Time-unit conversion |
 | `25 * 4` | Arithmetic calculation |
 | `32 c` | Temperature conversion |
@@ -40,11 +39,8 @@ Enter a message in the chat interface. These are examples of supported input pat
 | `oct:17` | Octal-to-number conversion |
 | `ascii:Hello` | ASCII representations of text |
 | `joke` | A programming joke |
-| `anime` | Anime-related conversation |
-| `games` | Gaming-related conversation |
-| `😜` | Switch to Playful mode |
-| `😎` | Switch to Serious mode |
-| `🎨` | Switch to Artist mode |
+| Casual conversation |
+
 
 Some commands use specific input formats. General conversational questions may receive a predefined response or trigger the web-search fallback. Search results, speech generation, and persistent storage depend on network access and deployment configuration.
 
