@@ -56,33 +56,6 @@ Some commands use specific input formats. General conversational questions may r
 - **Web-search fallback:** DuckDuckGo Instant Answer API
 - **Data storage:** Local JSON file for conversation entries
 
-## Run Locally
-
-### Requirements
-
-- Python installed on your system
-- Dependencies listed in `XeylithWeb/requirements.txt`
-
-### Installation
-
-1. Clone or download this repository.
-2. Open PowerShell in the repository directory.
-3. Install the dependencies:
-
-   ```powershell
-   cd XeylithWeb
-   python -m pip install -r requirements.txt
-   ```
-
-4. Start the Flask application:
-
-   ```powershell
-   python app.py
-   ```
-
-5. Open the following address in your browser:
-
-   `http://127.0.0.1:5000`
 
 ## Development Status
 
