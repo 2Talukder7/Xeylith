@@ -18,7 +18,6 @@ Xeylith is an experimental AI companion project exploring conversational AI, cha
 - **ASCII conversion:** Convert text characters into their decimal, binary, and hexadecimal representations.
 - **Event awareness:** Respond to selected dates and occasions, including New Year, Halloween, Christmas, and Xeylith's birthday.
 - **Casual interactions:** Try greetings, jokes, facts, advice, anime and gaming conversations, songs, and playful roasts.
-- **Web-search fallback:** When a built-in response is unavailable, Xeylith attempts to retrieve a short answer through the DuckDuckGo Instant Answer API.
 - **Text-to-speech:** Attempts to generate spoken replies using Google Text-to-Speech (gTTS).
 - **Conversation logging:** The backend saves conversation entries to a local JSON memory file when file access is available.
 
