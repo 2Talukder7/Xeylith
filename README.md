@@ -8,7 +8,6 @@ Xeylith is an experimental AI companion project exploring conversational AI, cha
 
 - **Web-based chat:** Talk to Xeylith through a browser-based interface.
 - **Character personality:** Cheerful, curious, playful responses with gaming and anime-inspired conversations.
-- **Quick-reply modes:** Use emoji controls to switch between Playful 😜, Serious 😎, and Artist 🎨 modes.
 - **Time and date awareness:** Ask for the current time, day, or date.
 - **Date calculations:** Calculate future dates using day, week, month, or year inputs.
 - **Time-unit conversion:** Convert time values into seconds, minutes, hours, and days.
